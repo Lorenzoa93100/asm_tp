@@ -3,14 +3,14 @@ global _start
 _start:
 section .text
 
-	move rax, 1
-	move rdi, 1
-	move rsi, message
-	move rdx, 0
+	mov rax, 1
+	mov rdi, 1
+	mov rsi, message
+	mov rdx, 0
 	syscall
 
-	move rax, 60
-	move rdi, 0
+	mov rax, 60
+	mov rdi, 0
 	syscall
 
 message:
