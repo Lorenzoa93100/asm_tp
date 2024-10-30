@@ -5,10 +5,13 @@ section .text
 
 	mov rax, 1
 	mov rdi, 1
-	mov rsi, "1337"
+	mov rsi, msg
 	mov rdx, 10
 	syscall
 
-	mov rax, 10
+	mov rax, 60
 	mov rdi, 0
 	syscall
+
+section .data
+    msg db "1337", 10
