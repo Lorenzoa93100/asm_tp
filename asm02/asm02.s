@@ -22,7 +22,7 @@ _start:
     cmp al, 0x32
     jne _exit_error
     mov al, [buff + 2]
-    mov al, 0x0A
+    cmp al, 0x0A
     jne _exit_error
 
     ;sys_write
