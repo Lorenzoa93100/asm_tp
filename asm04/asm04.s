@@ -1,7 +1,7 @@
 global _start
 
 section .bss
-    buff resb 64     
+    buff resb 64      ; Réserver 64 octets pour la lecture de l'entrée
 
 section .text
 _start:
@@ -13,30 +13,43 @@ _start:
     syscall
 
     mov rcx, 0          ; Compteur pour parcourir buff
-_loop:
+
+; Boucle pour vérifier chaque caractère
+_check_digits:
     mov al, [buff + rcx]    ; Charger le caractère actuel
     cmp al, 0x0A            ; Vérifier si c'est le caractère de nouvelle ligne '\n'
-    je _pair_or_not         ; Si '\n', on a trouvé la fin
-    inc rcx                 ; Passer au caractère suivant
-    cmp rcx, 63             ; Éviter de dépasser la limite de buff
-    jne _loop               ; Continuer jusqu'à la fin de l'entrée
+    je _pair_or_not         ; Si '\n', on a terminé de vérifier
+
+    ; Vérifier si le caractère est entre '0' et '9'
+    cmp al, '0'
+    jb _error_invalid_input   ; Sauter vers erreur si inférieur à '0'
+    cmp al, '9'
+    ja _error_invalid_input   ; Sauter vers erreur si supérieur à '9'
+
+    ; Passer au caractère suivant
+    inc rcx
+    cmp rcx, 63               ; Éviter de dépasser la limite de buff
+    jne _check_digits         ; Continuer à vérifier chaque caractère
 
 _pair_or_not:
-    mov al, [buff + rcx - 1]; `al` contient maintenant le dernier chiffre avant le '\n'
+    ; Charger le dernier chiffre (juste avant '\n')
+    mov al, [buff + rcx - 1]
     sub al, '0'             ; Convertir le caractère ASCII en valeur numérique
     test al, 1              ; Vérifier si impair avec AND 1
     jnz _exit_error         ; Si impair, retourner 1
     jmp _exit               ; Sauter vers _exit si pair
 
 _exit:
-    ; Retourner 0 si pair
     mov rax, 60
     xor rdi, rdi
     syscall
     
 _exit_error:
-    ; Retourner 1 si impair
     mov rax, 60
     mov rdi, 1
     syscall
 
+_error_invalid_input:
+    mov rax, 60
+    mov rdi, 2
+    syscall
