@@ -43,7 +43,7 @@ atoi_loop:
     
     ; Vérifier si c'est un chiffre valide (0-9)
     cmp rdx, 9
-    ja atoi_end
+    ja error_invalid_char   ; Si le caractère est supérieur à '9', c'est invalide
     
     ; Multiplier le résultat par 10 et ajouter le nouveau chiffre
     imul rax, 10
@@ -52,6 +52,11 @@ atoi_loop:
     inc rcx
     jmp atoi_loop
     
+error_invalid_char:
+    mov rdi, 2              ; Code d'erreur 2
+    mov rax, 60             ; syscall exit
+    syscall
+
 atoi_end:
     ret
 
