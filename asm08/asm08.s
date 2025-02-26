@@ -16,6 +16,8 @@ _start:
     call atoi
 
     cmp rax, 0
+    je _exit  ; Si le paramètre est 0, sautez à la fin sans erreur
+
     jle _exit_error
 
     mov rcx, rax
