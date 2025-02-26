@@ -16,7 +16,7 @@ _start:
     call atoi
 
     cmp rax, 0
-    je _exit  ; Si le paramètre est 0, sautez à la fin sans erreur
+    je print_zero  ; Si le paramètre est 0, afficher 0
 
     jle _exit_error
 
@@ -33,6 +33,14 @@ sum_loop:
 
 sum_done:
     mov rax, rbx
+    call print_number
+
+    xor rdi, rdi
+    jmp _exit
+
+print_zero:
+    ; Afficher 0 si le paramètre est 0
+    mov rax, 0
     call print_number
 
     xor rdi, rdi
