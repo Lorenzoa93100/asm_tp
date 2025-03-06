@@ -3,7 +3,7 @@ section .bss
 
 section .data
     newline db 10   ; Caractère de nouvelle ligne
-    error_msg db "Erreur: trois arguments numériques requis", 10
+    error_msg db "insufficient params", 10
     error_len equ $ - error_msg
 
 section .text
@@ -66,9 +66,9 @@ error:
     mov rdx, error_len
     syscall
 
-    ; Exit(-1) - erreur
+    ; Exit(1) - erreur, code modifié de -1 à 1
     mov rax, 60
-    mov rdi, -1      ; Code de sortie -1
+    mov rdi, 1       ; Code de sortie 1 au lieu de -1
     syscall
 
 ; ------------------------------------------------
