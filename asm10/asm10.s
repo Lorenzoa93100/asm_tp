@@ -128,5 +128,3 @@ itoa_loop:
     pop rdx         ; Restaurer rdx
     pop rbx         ; Restaurer rbx
     ret
-
-Version 2 of 2
